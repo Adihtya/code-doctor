@@ -1,316 +1,806 @@
+<!-- ==================== HEADER ==================== -->
+
 <div align="center">
 
-# 🩺 Code Doctor
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:D97757,50:8B4513,100:0D1117&height=220&section=header&text=Code%20Doctor&fontSize=65&fontColor=FFFFFF&animation=fadeIn&fontAlignY=38&desc=Diagnose.%20Review.%20Improve.&descAlignY=60&descSize=20" width="100%" />
 
-**An intelligent code review assistant for Claude Code** — combining automated static analysis with structured manual checklists to catch issues before they reach production.
+  <img src="./icon.png" width="110" alt="Code Doctor Logo" />
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/adityachaudhari/Claude-Doctor)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-2.1%2B-orange.svg)](https://claude.com/claude-code)
-[![Status](https://img.shields.io/badge/status-active-brightgreen.svg)]()
+  <h1>🩺 Code Doctor</h1>
+
+  <p>
+    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=19&pause=1000&color=D97757&center=true&vCenter=true&width=650&lines=Your+Code.+Under+Examination.;Detect+Issues+Before+Production.;Automated+Analysis.+Human+Intelligence.;Built+for+Claude+Code." alt="Typing SVG" />
+  </p>
+
+  <p>
+    <strong>A hybrid code review assistant for Claude Code.</strong>
+    <br />
+    Combining automated static analysis with structured manual review
+    <br />
+    to help developers write cleaner, safer and more maintainable software.
+  </p>
+
+  <br />
+
+  <img src="https://img.shields.io/badge/VERSION-1.0.0-D97757?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/LICENSE-Apache_2.0-2EA043?style=for-the-badge&logo=apache" />
+  <img src="https://img.shields.io/badge/STATUS-ACTIVE-2EA043?style=for-the-badge" />
+
+  <br />
+
+  <img src="https://img.shields.io/badge/Claude_Code-2.1.275+-D97757?style=flat-square&logo=anthropic&logoColor=white" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/Open_Source-3DA639?style=flat-square&logo=opensourceinitiative&logoColor=white" />
+
+<br /><br />
+
+<a href="#-overview">Overview</a> •
+<a href="#-features">Features</a> •
+<a href="#-installation">Installation</a> •
+<a href="#-usage">Usage</a> •
+<a href="#-architecture">Architecture</a> •
+<a href="#-contributing">Contributing</a>
 
 </div>
 
----
+<hr />
 
-## 🎯 Why Code Doctor Exists
-
-Code review is one of the most critical — yet inconsistent — parts of software development. Every team has different standards, reviewers miss different things, and automated tools often produce noise without context.
-
-**Code Doctor solves this by combining two approaches:**
-
-| Approach | What It Catches | Limitation |
-|----------|-----------------|------------|
-| **🔍 Automated Scanner** | Secrets, SQL injection risks, XSS vectors, debug code, empty catch blocks, console logs, TODO/FIXME, hardcoded credentials | Pattern-based — can't understand intent |
-| **📋 Manual Checklist** | Architecture decisions, business logic correctness, API design, documentation completeness, team conventions | Human-dependent — easy to skip |
-
-**Together, they provide defense in depth.** The scanner catches the mechanical errors humans miss; the checklist ensures the thoughtful review humans excel at.
-
----
-
-## ✨ Features
-
-### 🔍 Automated Code Scanner (27 Patterns)
-| Severity | Categories | Examples |
-|----------|------------|----------|
-| 🔴 **Critical** | Secrets, Injection, Code Execution | Hardcoded passwords, API keys, AWS credentials, private keys, `eval()`, `new Function()`, SQL injection patterns |
-| 🟡 **Warning** | Security, Error Handling, Debug Code | `innerHTML` XSS risks, empty catch blocks, `debugger` statements, SQL concatenation, `FIXME`/`HACK` comments |
-| 🔵 **Info** | Hygiene, Performance, Maintenance | `console.log`/`print` statements, `TODO` comments, loop performance hints, `fmt.Print` |
-
-### 📋 Structured Manual Checklist (32 Items)
-| Category | Items | Focus |
-|----------|-------|-------|
-| ✨ **General** | 8 | Clean code, error handling, logging, comments, naming, tests, docs, no console |
-| 🔒 **Security** | 8 | Input validation, no secrets, SQL injection prevention, XSS prevention, auth, crypto, permissions, rate limiting |
-| ⚡ **Performance** | 8 | N+1 queries, indexes, caching, memory leaks, bundle size, lazy loading, algorithms, pagination |
-| 📋 **Project-Specific** | 8 | Architecture, forbidden patterns, required files, naming conventions, dependencies, breaking changes, migrations, feature flags |
-
-### 🎨 User Experience
-- **Visual pane** — opens with `/code-doctor` command
-- **Context menu** — right-click anywhere → "Open Code Doctor"
-- **Status line** — shows 🩺 when ready
-- **Persistent state** — scan results survive restarts
-- **Filterable results** — toggle between Critical/Warning/Info/All
-- **Code snippets** — see the exact line that triggered each issue
-
----
-
-## 🚀 Installation
-
-### Prerequisites
-- **Claude Code** ≥ 2.1.275
-- **Git** (for cloning)
-
-### Quick Install (Recommended)
-
-```bash
-# Clone to Claude's plugin directory
-git clone https://github.com/adityachaudhari/Claude-Doctor.git ~/.claude/dev-mods/code-doctor
-
-# Restart Claude Code (or reload plugins)
-claude --plugin-dir ~/.claude/dev-mods/code-doctor
-```
-
-### Manual Install
-
-```bash
-# Create plugin directory
-mkdir -p ~/.claude/dev-mods/code-doctor
-
-# Copy these files into it:
-# ├── .claude-plugin/plugin.json
-# ├── hooks/hooks.json
-# ├── hooks/register.tsx
-# ├── icon.png
-# ├── LICENSE
-# └── README.md
-
-# Load plugin
-claude --plugin-dir ~/.claude/dev-mods/code-doctor
-```
-
-### Verify Installation
-
-```bash
-# Validate plugin structure
-claude plugin validate ~/.claude/dev-mods/code-doctor
-
-# In Claude Code, run:
-/code-doctor
-```
-
-**Success indicators:**
-- ✅ Pane opens titled "Code Doctor 🩺"
-- ✅ Status line shows `🩺 Code Doctor ready`
-- ✅ Right-click → "Open Code Doctor" works
-- ✅ "🔍 Scan Repository" button triggers scan
-
----
-
-## 🎮 Usage
-
-### Running a Scan
-
-1. Open the panel: `/code-doctor`
-2. Click **"🔍 Scan Repository"**
-3. Wait for toast: `Scan complete: X issues in Y files (Zms)`
-4. Filter results using dropdown: **All / Critical / Warning / Info**
-5. Review each issue with file path, line number, and code snippet
-
-### Manual Review
-
-Below the scanner, work through the **32-item checklist**:
-- Click through each category
-- Mentally verify each item
-- Use "Mark Review Complete" when done
-
-### Keyboard Shortcuts
-
-| Action | Command |
-|--------|---------|
-| Open panel | `/code-doctor` |
-| Quick scan | Right-click → "Open Code Doctor" |
-
----
-
-## 🏗️ Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Code Doctor Plugin                        │
-├─────────────────────────────────────────────────────────────┤
-│  Commands                  │  UI Renderers                   │
-│  ─────────────             │  ───────────                   │
-│  /code-doctor              │  Pane (main interface)          │
-│  /code-doctor-scan-internal│  ContextMenu (right-click)      │
-│                            │  StatusLine (🩺 indicator)       │
-├─────────────────────────────────────────────────────────────┤
-│  State Management ($.store)                                 │
-│  ─────────────────────────                                  │
-│  • code-doctor-scan     → { issues, scanning, lastScan }   │
-│  • code-doctor-severity → 'all' | 'critical' | 'warning'    │
-├─────────────────────────────────────────────────────────────┤
-│  Scanner Engine (27 regex patterns)                         │
-│  ─────────────────────────────────                          │
-│  • Secrets detection (passwords, keys, tokens)              │
-│  • Injection risks (SQL, XSS, code execution)               │
-│  • Error handling anti-patterns                             │
-│  • Debug/hygiene code                                       │
-│  • Performance hints                                        │
-├─────────────────────────────────────────────────────────────┤
-│  File System Access ($.fs)                                  │
-│  ─────────────────────────                                  │
-│  • $.fs.glob() — find code files (500 max)                  │
-│  • $.fs.read() — read file contents                         │
-│  • Excludes: node_modules, .git, dist, build                │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 📁 Project Structure
-
-```
-Claude-Doctor/
-├── .claude-plugin/
-│   └── plugin.json          # Plugin manifest (name, version, author, icon)
-├── hooks/
-│   ├── hooks.json           # Module registration
-│   └── register.tsx         # Main plugin logic (commands, UI, scanner)
-├── icon.png                 # 512×512 plugin icon
-├── LICENSE                  # MIT License
-└── README.md                # This file
-```
-
----
-
-## 🔧 Configuration
-
-### Customize Scan Patterns
-
-Edit `hooks/register.tsx` → `scanFile()` function → `patterns` array:
-
-```typescript
-const patterns = [
-  // Add custom pattern
-  { 
-    regex: /your-custom-pattern/gi, 
-    type: 'custom-issue', 
-    severity: 'warning', 
-    message: 'Your custom message' 
-  },
-  // ... existing patterns
-]
-```
-
-### Adjust Scan Limits
-
-```typescript
-// In register.tsx, scan command:
-.slice(0, 500)  // Max files to scan (change as needed)
-```
-
-### Exclude Additional Directories
-
-```typescript
-.filter(f => !f.includes('node_modules') 
-          && !f.includes('.git') 
-          && !f.includes('dist') 
-          && !f.includes('build')
-          && !f.includes('your-folder'))  // Add yours
-```
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how:
-
-### Adding New Detection Patterns
-
-1. Fork the repository
-2. Add pattern to `scanFile()` in `hooks/register.tsx`
-3. Test with sample code
-4. Submit PR with description of what it catches
-
-### Improving the Checklist
-
-1. Edit `categories` array in `register.tsx`
-2. Follow existing format: `{ id, label }`
-3. Keep items specific and actionable
-
-### Reporting Issues
-
-- **False positives** → Open issue with code snippet
-- **Missed patterns** → Provide example code
-- **UI bugs** → Screenshot + steps to reproduce
-
----
-
-## 📜 License
-
-MIT License — see [LICENSE](LICENSE) for details.
-
-```
-Copyright (c) 2024 Aditya Chaudhari
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software...
-```
-
----
-
-## 👨‍💻 Author
-
-### **Aditya Chaudhari**
-
-**Full Stack Developer & Security Enthusiast**
-
-- **GitHub:** [@adityachaudhari](https://github.com/adityachaudhari)
-- **LinkedIn:** [Aditya Chaudhari](https://linkedin.com/in/adityachaudhari)
-- **Portfolio:** [adityachaudhari.dev](https://adityachaudhari.dev)
-
-### 🎯 Contributions to This Project
-
-| Area | Contribution |
-|------|--------------|
-| **Concept & Design** | Designed the hybrid scanner + checklist approach for defense-in-depth code review |
-| **Plugin Architecture** | Built on Claude Code's plugin system using `$.ui`, `$.store`, `$.fs`, `$.command` APIs |
-| **Scanner Engine** | Implemented 27 detection patterns covering secrets, injection, XSS, error handling, debug code, performance |
-| **UI/UX** | Created intuitive pane interface with severity filtering, code snippets, context menu integration |
-| **Persistence** | Used `$.store` for cross-session state (scan results survive restarts) |
-| **Distribution** | Packaged as installable plugin with validation, README, and MIT license |
-
-### 💡 Philosophy
-
-> *"Code review shouldn't be a checkbox exercise. It should be a systematic process where automation handles the mechanical checks, freeing humans to focus on the thoughtful review only they can do."*
-
----
-
-## 🙏 Acknowledgments
-
-- **Claude Code Team** — for the extensible plugin platform
-- **Security Researchers** — whose public work informed detection patterns
-- **Open Source Community** — for the tools and patterns that made this possible
-
----
-
-## 📊 Stats
-
-![Lines of Code](https://img.shields.io/badge/lines%20of%20code-~600-blue)
-![Detection Patterns](https://img.shields.io/badge/detection%20patterns-27-green)
-![Checklist Items](https://img.shields.io/badge/checklist%20items-32-orange)
-![Languages Supported](https://img.shields.io/badge/languages-15+-purple)
-
----
+<!-- ==================== STATISTICS ==================== -->
 
 <div align="center">
 
-**Made with ❤️ for developers who take code quality seriously**
+  <h2>Code Quality. By the Numbers.</h2>
 
-[⭐ Star this repo](https://github.com/adityachaudhari/Claude-Doctor) • [🐛 Report Issue](https://github.com/adityachaudhari/Claude-Doctor/issues) • [💡 Request Feature](https://github.com/adityachaudhari/Claude-Doctor/issues/new)
+  <table>
+    <tr>
+      <td align="center" width="25%">
+        <h1>27</h1>
+        <strong>Detection Patterns</strong>
+      </td>
+      <td align="center" width="25%">
+        <h1>32</h1>
+        <strong>Review Checks</strong>
+      </td>
+      <td align="center" width="25%">
+        <h1>500</h1>
+        <strong>Files Per Scan</strong>
+      </td>
+      <td align="center" width="25%">
+        <h1>15+</h1>
+        <strong>Languages</strong>
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+<hr />
+
+<!-- ==================== OVERVIEW ==================== -->
+
+<h2 id="-overview">🎯 Overview</h2>
+
+<p>
+  Code review is one of the most important stages of software
+  development, yet it remains inconsistent, time-consuming
+  and vulnerable to human oversight.
+</p>
+
+<p>
+  <strong>Code Doctor</strong> is a developer-focused plugin
+  designed to improve the code review process directly
+  inside Claude Code.
+</p>
+
+<p>
+  Instead of relying entirely on automated scanners or manual
+  inspection, Code Doctor combines both approaches into a
+  unified review workflow.
+</p>
+
+<table>
+  <tr>
+    <th>Automated Analysis</th>
+    <th>Structured Human Review</th>
+  </tr>
+  <tr>
+    <td>
+      Detects suspicious code patterns, exposed credentials,
+      injection risks, debugging statements and common
+      programming anti-patterns.
+    </td>
+    <td>
+      Evaluates architecture, business logic, documentation,
+      performance and project-specific conventions.
+    </td>
+  </tr>
+  <tr>
+    <td>Fast, consistent and repeatable.</td>
+    <td>Context-aware and judgment-driven.</td>
+  </tr>
+</table>
+
+<blockquote>
+  <strong>Our philosophy:</strong>
+  Automation should handle repetitive checks, allowing
+  developers to focus on decisions that require human judgment.
+</blockquote>
+
+<hr />
+
+<!-- ==================== FEATURES ==================== -->
+
+<h2 id="-features">✨ Features</h2>
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>🔍 Automated Code Scanner</h3>
+      <p>
+        Detect potentially unsafe and problematic code
+        using 27 pattern-based detection rules.
+      </p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>📋 Structured Review Checklist</h3>
+      <p>
+        Follow 32 review checks covering general quality,
+        security, performance and project conventions.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <h3>🛡️ Security Detection</h3>
+      <p>
+        Identify potential credential leaks, injection
+        vulnerabilities and unsafe code execution patterns.
+      </p>
+    </td>
+    <td valign="top">
+      <h3>⚡ Performance Review</h3>
+      <p>
+        Identify common performance concerns and review
+        caching, database queries and resource usage.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <h3>🎨 Interactive Interface</h3>
+      <p>
+        Access scan results through a dedicated pane
+        with severity filters and code snippets.
+      </p>
+    </td>
+    <td valign="top">
+      <h3>💾 Persistent State</h3>
+      <p>
+        Preserve scan results across sessions using
+        the plugin's state management system.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <h3>📂 Repository Scanning</h3>
+      <p>
+        Scan up to 500 files while excluding common
+        dependency and build directories.
+      </p>
+    </td>
+    <td valign="top">
+      <h3>🧩 Extensible Rules</h3>
+      <p>
+        Customize detection patterns, review checklists
+        and repository scanning limits.
+      </p>
+    </td>
+  </tr>
+</table>
+
+<hr />
+
+<!-- ==================== SCANNER ==================== -->
+
+<h2>🔬 Detection Engine</h2>
+
+<p>
+  The scanner classifies findings into three severity levels
+  to help developers prioritize their review.
+</p>
+
+<table>
+  <tr>
+    <th>Severity</th>
+    <th>Category</th>
+    <th>Detection Examples</th>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://img.shields.io/badge/CRITICAL-FF4444?style=flat-square" />
+    </td>
+    <td>Security & Code Execution</td>
+    <td>
+      Hardcoded passwords, API keys, AWS credentials,
+      private keys, SQL injection patterns,
+      <code>eval()</code> and <code>new Function()</code>.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://img.shields.io/badge/WARNING-F5A623?style=flat-square" />
+    </td>
+    <td>Security & Reliability</td>
+    <td>
+      Unsafe innerHTML, empty catch blocks,
+      debugger statements, SQL concatenation,
+      FIXME and HACK comments.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://img.shields.io/badge/INFO-3B82F6?style=flat-square" />
+    </td>
+    <td>Code Quality & Maintenance</td>
+    <td>
+      Console logs, print statements, TODO comments
+      and potential performance concerns.
+    </td>
+  </tr>
+</table>
+
+<hr />
+
+<!-- ==================== CHECKLIST ==================== -->
+
+<h2>📋 Manual Review Checklist</h2>
+
+<p>
+  A comprehensive 32-item checklist organized into four
+  essential software quality categories.
+</p>
+
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Checks</th>
+    <th>Review Areas</th>
+  </tr>
+  <tr>
+    <td>✨ General</td>
+    <td align="center">8</td>
+    <td>
+      Clean code, error handling, logging, comments,
+      naming, testing, documentation and debug output.
+    </td>
+  </tr>
+  <tr>
+    <td>🔒 Security</td>
+    <td align="center">8</td>
+    <td>
+      Input validation, credentials, SQL injection,
+      XSS, authentication, cryptography,
+      permissions and rate limiting.
+    </td>
+  </tr>
+  <tr>
+    <td>⚡ Performance</td>
+    <td align="center">8</td>
+    <td>
+      N+1 queries, indexes, caching, memory leaks,
+      bundle size, lazy loading, algorithms and pagination.
+    </td>
+  </tr>
+  <tr>
+    <td>🏗️ Project-Specific</td>
+    <td align="center">8</td>
+    <td>
+      Architecture, forbidden patterns, required files,
+      naming conventions, dependencies, breaking changes,
+      migrations and feature flags.
+    </td>
+  </tr>
+</table>
+
+<hr />
+
+<!-- ==================== TECH STACK ==================== -->
+
+<h2>🛠️ Technology Stack</h2>
+
+<div align="center">
+
+  <img src="https://skillicons.dev/icons?i=ts,react,git,github&theme=dark" alt="Technology Stack" />
+
+<br /><br />
+
+  <img src="https://img.shields.io/badge/Claude_Code-Plugin_Architecture-D97757?style=for-the-badge&logo=anthropic&logoColor=white" />
+
+</div>
+
+<table>
+  <tr>
+    <th>Technology</th>
+    <th>Purpose</th>
+  </tr>
+  <tr>
+    <td>TypeScript</td>
+    <td>Core plugin logic and scanner implementation.</td>
+  </tr>
+  <tr>
+    <td>TSX / React</td>
+    <td>Interactive plugin interface.</td>
+  </tr>
+  <tr>
+    <td>Regular Expressions</td>
+    <td>Pattern-based static code analysis.</td>
+  </tr>
+  <tr>
+    <td>Claude Code Plugin APIs</td>
+    <td>Commands, interface rendering, storage and file access.</td>
+  </tr>
+  <tr>
+    <td>Git & GitHub</td>
+    <td>Version control and open-source collaboration.</td>
+  </tr>
+</table>
+
+<hr />
+
+<!-- ==================== INSTALLATION ==================== -->
+
+<h2 id="-installation">🚀 Installation</h2>
+
+<h3>Prerequisites</h3>
+
+<ul>
+  <li>Claude Code version 2.1.275 or later.</li>
+  <li>Git installed on your system.</li>
+  <li>Access to a local development repository.</li>
+</ul>
+
+<h3>01 — Clone the Repository</h3>
+
+<pre><code>git clone https://github.com/adityachaudhari/Claude-Doctor.git ~/.claude/dev-mods/code-doctor</code></pre>
+
+<h3>02 — Load the Plugin</h3>
+
+<pre><code>claude --plugin-dir ~/.claude/dev-mods/code-doctor</code></pre>
+
+<h3>03 — Validate Installation</h3>
+
+<pre><code>claude plugin validate ~/.claude/dev-mods/code-doctor</code></pre>
+
+<h3>04 — Launch Code Doctor</h3>
+
+<pre><code>/code-doctor</code></pre>
+
+<h3>Installation Verification</h3>
+
+<ul>
+  <li>Code Doctor pane opens successfully.</li>
+  <li>Status line displays Code Doctor ready.</li>
+  <li>Context menu includes Open Code Doctor.</li>
+  <li>Scan Repository button initiates a scan.</li>
+</ul>
+
+<hr />
+
+<!-- ==================== USAGE ==================== -->
+
+<h2 id="-usage">🎮 Usage</h2>
+
+<h3>Automated Repository Scan</h3>
+
+<ol>
+  <li>Open Claude Code in your project directory.</li>
+  <li>Execute <code>/code-doctor</code>.</li>
+  <li>Select <strong>Scan Repository</strong>.</li>
+  <li>Wait for the scanning process to complete.</li>
+  <li>Filter results by severity.</li>
+  <li>Inspect the file path, line number and code snippet.</li>
+  <li>Resolve confirmed issues and scan again.</li>
+</ol>
+
+<h3>Manual Code Review</h3>
+
+<ol>
+  <li>Navigate to the manual review checklist.</li>
+  <li>Review all four categories.</li>
+  <li>Verify each applicable item against your codebase.</li>
+  <li>Resolve identified concerns.</li>
+  <li>Select <strong>Mark Review Complete</strong>.</li>
+</ol>
+
+<h3>Available Commands</h3>
+
+<table>
+  <tr>
+    <th>Command / Action</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>/code-doctor</code></td>
+    <td>Open the main Code Doctor interface.</td>
+  </tr>
+  <tr>
+    <td><code>/code-doctor-scan-internal</code></td>
+    <td>Internal repository scanning command.</td>
+  </tr>
+  <tr>
+    <td>Right-click → Open Code Doctor</td>
+    <td>Open the plugin through the context menu.</td>
+  </tr>
+</table>
+
+<hr />
+
+<!-- ==================== ARCHITECTURE ==================== -->
+
+<h2 id="-architecture">🏗️ Architecture</h2>
+
+<p>
+  Code Doctor follows a modular architecture that separates
+  user interaction, state management, scanning logic
+  and filesystem operations.
+</p>
+
+<pre>
+┌─────────────────────────────────────────────┐
+│              CLAUDE CODE                    │
+└──────────────────────┬──────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────┐
+│             CODE DOCTOR PLUGIN              │
+│                                             │
+│   Commands • Pane • Context Menu            │
+│   Status Line • Severity Filters            │
+└──────────────────────┬──────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────┐
+│              STATE MANAGEMENT               │
+│                                             │
+│   Scan Results • Scan Status • Filters      │
+│                 $.store                     │
+└──────────────────────┬──────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────┐
+│               SCANNER ENGINE                │
+│                                             │
+│   27 Detection Patterns                     │
+│   Security • Reliability • Code Quality     │
+└──────────────────────┬──────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────┐
+│              FILESYSTEM LAYER               │
+│                                             │
+│   $.fs.glob() • $.fs.read()                  │
+│   File Filtering • 500 File Limit            │
+└─────────────────────────────────────────────┘
+</pre>
+
+<h3>Core Components</h3>
+
+<table>
+  <tr>
+    <th>Component</th>
+    <th>Responsibility</th>
+  </tr>
+  <tr>
+    <td><code>$.ui</code></td>
+    <td>Plugin interface and visual components.</td>
+  </tr>
+  <tr>
+    <td><code>$.command</code></td>
+    <td>Command registration and execution.</td>
+  </tr>
+  <tr>
+    <td><code>$.store</code></td>
+    <td>Persistent scan results and application state.</td>
+  </tr>
+  <tr>
+    <td><code>$.fs</code></td>
+    <td>Repository discovery and file reading.</td>
+  </tr>
+  <tr>
+    <td><code>scanFile()</code></td>
+    <td>Pattern matching and issue classification.</td>
+  </tr>
+</table>
+
+<hr />
+
+<!-- ==================== PROJECT STRUCTURE ==================== -->
+
+<h2>📁 Project Structure</h2>
+
+<pre>
+Claude-Doctor/
+│
+├── .claude-plugin/
+│   └── plugin.json          # Plugin manifest
+│
+├── hooks/
+│   ├── hooks.json           # Module registration
+│   └── register.tsx         # Scanner, commands and UI
+│
+├── icon.png                 # Plugin icon
+├── LICENSE                  # Apache License 2.0
+└── README.md                # Documentation
+</pre>
+
+<hr />
+
+<!-- ==================== CONFIGURATION ==================== -->
+
+<h2>⚙️ Configuration</h2>
+
+<h3>Custom Detection Rules</h3>
+
+<p>
+  Modify the <code>patterns</code> array inside the
+  <code>scanFile()</code> function in
+  <code>hooks/register.tsx</code>.
+</p>
+
+<pre><code>const patterns = [
+  {
+    regex: /your-custom-pattern/gi,
+    type: 'custom-issue',
+    severity: 'warning',
+    message: 'Your custom detection message'
+  },
+
+  // Existing detection patterns
+];</code></pre>
+
+<h3>Adjust Repository Scan Limits</h3>
+
+<pre><code>// Default maximum number of files
+.slice(0, 500)</code></pre>
+
+<h3>Excluded Directories</h3>
+
+<pre><code>.filter(f =>
+  !f.includes('node_modules') &amp;&amp;
+  !f.includes('.git') &amp;&amp;
+  !f.includes('dist') &amp;&amp;
+  !f.includes('build')
+)</code></pre>
+
+<p>
+  Additional directories can be excluded by extending
+  the existing file filtering conditions.
+</p>
+
+<hr />
+
+<!-- ==================== LIMITATIONS ==================== -->
+
+<h2>⚠️ Limitations</h2>
+
+<ul>
+  <li>
+    Pattern-based detection may produce false positives
+    or miss context-dependent vulnerabilities.
+  </li>
+  <li>
+    The scanner does not fully understand business logic
+    or application execution flow.
+  </li>
+  <li>
+    Repository scans are limited to 500 files by default.
+  </li>
+  <li>
+    Manual review remains necessary for comprehensive
+    security and architectural assessment.
+  </li>
+</ul>
+
+<blockquote>
+  Code Doctor is a code review assistance tool,
+  not a replacement for professional security audits,
+  comprehensive testing or human judgment.
+</blockquote>
+
+<hr />
+
+<!-- ==================== CONTRIBUTING ==================== -->
+
+<h2 id="-contributing">🤝 Contributing</h2>
+
+<p>
+  Open-source contributions are welcome. Whether you are
+  fixing a bug, improving documentation or implementing
+  a new detection rule, your contribution matters.
+</p>
+
+<h3>Contribution Workflow</h3>
+
+<ol>
+  <li>Fork this repository.</li>
+  <li>Create a feature branch.</li>
+  <li>Implement and test your changes.</li>
+  <li>Commit with a descriptive message.</li>
+  <li>Push your branch.</li>
+  <li>Open a pull request.</li>
+</ol>
+
+<pre><code>git checkout -b feature/improve-scanner
+
+git add .
+
+git commit -m "feat: improve scanner detection"
+
+git push origin feature/improve-scanner</code></pre>
+
+<h3>Areas for Contribution</h3>
+
+<table>
+  <tr>
+    <th>Area</th>
+    <th>Contribution</th>
+  </tr>
+  <tr>
+    <td>🔍 Detection Engine</td>
+    <td>Add or improve code analysis patterns.</td>
+  </tr>
+  <tr>
+    <td>🛡️ Security</td>
+    <td>Improve vulnerability detection accuracy.</td>
+  </tr>
+  <tr>
+    <td>🎨 UI/UX</td>
+    <td>Improve accessibility and developer experience.</td>
+  </tr>
+  <tr>
+    <td>🧪 Testing</td>
+    <td>Add test cases and reduce false positives.</td>
+  </tr>
+  <tr>
+    <td>📚 Documentation</td>
+    <td>Improve guides, examples and documentation.</td>
+  </tr>
+</table>
+
+<div align="center">
+
+  <a href="https://github.com/adityachaudhari/Claude-Doctor/issues">
+    <img src="https://img.shields.io/badge/REPORT_A_BUG-FF4444?style=for-the-badge&logo=github&logoColor=white" />
+  </a>
+
+  <a href="https://github.com/adityachaudhari/Claude-Doctor/issues/new">
+    <img src="https://img.shields.io/badge/REQUEST_A_FEATURE-3178C6?style=for-the-badge&logo=github&logoColor=white" />
+  </a>
+
+</div>
+
+<hr />
+
+<!-- ==================== LICENSE ==================== -->
+
+<h2>📜 License</h2>
+
+<div align="center">
+
+  <img src="https://img.shields.io/badge/Apache_License-2.0-D22128?style=for-the-badge&logo=apache&logoColor=white" />
+
+</div>
+
+<p>
+  This project is licensed under the
+  <strong>Apache License, Version 2.0</strong>.
+</p>
+
+<p>
+  You may use, reproduce, modify and distribute this software
+  subject to the terms and conditions of the license.
+</p>
+
+<p>
+  See the <a href="./LICENSE">LICENSE</a> file for the
+  complete license text.
+</p>
+
+<hr />
+
+<!-- ==================== AUTHOR ==================== -->
+
+<h2>👨‍💻 Author</h2>
+
+<div align="center">
+
+  <img src="https://github.com/Adihtya.png" width="110" alt="Aditya Chaudhari" />
+
+  <h2>Aditya Santosh Chaudhari</h2>
+
+  <p>
+    <strong>
+      Computer Science & AI Student |
+      Open Source Contributor |
+      Developer
+    </strong>
+  </p>
+
+  <p>
+    Building technology that makes software development
+    smarter, safer and more accessible.
+  </p>
+
+  <a href="https://github.com/Adihtya">
+    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
+  </a>
+
+  <a href="https://www.linkedin.com/in/adihtya/">
+    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
+  </a>
+
+  <a href="https://adihtya.github.io/Portfolio_Adihtya/">
+    <img src="https://img.shields.io/badge/Portfolio-D97757?style=for-the-badge&logo=googlechrome&logoColor=white" />
+  </a>
+
+</div>
+
+<hr />
+
+<!-- ==================== ACKNOWLEDGMENTS ==================== -->
+
+<h2>🙏 Acknowledgments</h2>
+
+<ul>
+  <li>
+    <strong>Anthropic & Claude Code</strong> —
+    for the developer tooling ecosystem.
+  </li>
+  <li>
+    <strong>Security Researchers</strong> —
+    for advancing secure software development practices.
+  </li>
+  <li>
+    <strong>Open Source Community</strong> —
+    for continuous innovation and collaboration.
+  </li>
+</ul>
+
+<hr />
+
+<!-- ==================== SUPPORT ==================== -->
+
+<div align="center">
+
+  <h2>⭐ Support the Project</h2>
+
+  <p>
+    If Code Doctor helps improve your development workflow,
+    consider giving the repository a star.
+  </p>
+
+  <a href="https://github.com/adityachaudhari/Claude-Doctor">
+    <img src="https://img.shields.io/badge/STAR_THIS_REPOSITORY-FFD700?style=for-the-badge&logo=github&logoColor=black" />
+  </a>
+
+<br /><br />
+
+  <img src="https://komarev.com/ghpvc/?username=Adihtya-Claude-Doctor&label=README%20VIEWS&color=D97757&style=flat-square" />
+
+<br /><br />
+
+  <h3>Better Code. Better Software. Better Tomorrow.</h3>
+
+  <p>
+    <sub>
+      Designed and developed by Aditya Chaudhari.
+      <br />
+      Built for developers who take code quality seriously.
+    </sub>
+  </p>
+
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:D97757,50:8B4513,100:0D1117&height=120&section=footer" width="100%" />
 
 </div>
