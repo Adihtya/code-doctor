@@ -1,0 +1,50 @@
+{
+  "name": "claude-doctor",
+  "owner": {
+    "login": "adihtya",
+    "name": "adihtya",
+    "type": "User"
+  },
+  "plugins": [
+    {
+      "name": "code-doctor",
+      "displayName": "Code Doctor 🩺",
+      "description": "Code review checklist panel with automated security, performance, and best practices scanning",
+      "version": "0.1.0",
+      "license": "MIT",
+      "repository": "https://github.com/adihtya/claude-doctor",
+      "homepage": "https://github.com/adihtya/claude-doctor#readme",
+      "issues": "https://github.com/adihtya/claude-doctor/issues",
+      "icon": "icon.png",
+      "categories": ["code-review", "security", "productivity", "developer-tools"],
+      "keywords": ["code-review", "security-scan", "linting", "best-practices", "checklist"],
+      "engines": {
+        "claude-code": ">=1.0.0"
+      },
+      "activationEvents": [
+        "onCommand:code-doctor",
+        "onStartup"
+      ],
+      "main": "./hooks/register.tsx",
+      "source": ".",
+      "contributes": {
+        "commands": [
+          {
+            "command": "code-doctor",
+            "title": "Open Code Doctor",
+            "description": "Open the code review panel with scanner and checklist"
+          }
+        ],
+        "menus": {
+          "editor/context": [
+            {
+              "command": "code-doctor",
+              "when": "editorFocus",
+              "group": "navigation"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -149,7 +149,8 @@ export const register: Register = (on, options) => {
       await $.command.run({ command: 'code-doctor-scan-internal' })
     }
 
-    const handleSeverityChange = async (v: 'all' | 'critical' | 'warning' | 'info') => {
+    const handleSeverityChange = async (value: string, _e: any) => {
+      const v = value as 'all' | 'critical' | 'warning' | 'info'
       await $.store.set('code-doctor-severity', v)
       await $.command.run({ command: 'code-doctor' })
     }
@@ -173,9 +174,10 @@ export const register: Register = (on, options) => {
               {scanState.scanning ? '⏳ Scanning...' : '🔍 Scan Repository'}
             </Button>
             
-            <Select 
-              value={severity} 
-              onChange={handleSeverityChange}
+            <Select
+              key="severity-select"
+              value={severity}
+              onSelect={handleSeverityChange}
               options={[
                 { value: 'all', label: 'All' },
                 { value: 'critical', label: `🔴 Critical (${counts.critical})` },
@@ -193,7 +195,7 @@ export const register: Register = (on, options) => {
 
           {/* Issues List */}
           {scanState.issues.length > 0 && (
-            <Box gap={1} padding={{ top: 1 }}>
+            <Box gap={1} paddingTop={1}>
               <Text weight="bold" size="body">Found {filteredIssues.length} issue(s):</Text>
               <Box gap={1}>
                 {filteredIssues.slice(0, 50).map(renderIssue)}
@@ -230,18 +232,19 @@ export const register: Register = (on, options) => {
     
     try {
       // Find code files
-      const patterns = [
-        '**/*.{js,jsx,ts,tsx}',
-        '**/*.{py,go,rs,java,kt,swift}',
-        '**/*.{php,rb,cs,cpp,c,h,hpp}',
-        '**/*.{json,yaml,yml,toml}',
-        '**/*.{sql,sh,bash,zsh}',
+      const extensions = [
+        'js', 'jsx', 'ts', 'tsx',
+        'py', 'go', 'rs', 'java', 'kt', 'swift',
+        'php', 'rb', 'cs', 'cpp', 'c', 'h', 'hpp',
+        'json', 'yaml', 'yml', 'toml',
+        'sql', 'sh', 'bash', 'zsh',
       ]
-      
+
       let allFiles: string[] = []
-      for (const pattern of patterns) {
+      for (const ext of extensions) {
         try {
-          const files = await $.fs.glob(pattern)
+          const entries = await $.fs.list(`**/*.${ext}`)
+          const files = entries.map((entry: any) => entry.path)
           allFiles.push(...files)
         } catch {}
       }
@@ -274,7 +277,7 @@ export const register: Register = (on, options) => {
       $.ui.toast(`Scan complete: ${allIssues.length} issues in ${allFiles.length} files (${duration}ms)`)
       
     } catch (error) {
-      await $.store.set('code-doctor-scan', s => ({ ...s, scanning: false }))
+      await $.store.set('code-doctor-scan', (s: ScanState | undefined) => ({ ...(s || { issues: [], scanning: false, lastScan: 0, filesScanned: 0 }), scanning: false }))
       $.ui.toast(`Scan failed: ${error}`)
     }
     
