@@ -361,19 +361,29 @@
   <li>Access to a local development repository.</li>
 </ul>
 
-<h3>01 — Clone the Repository</h3>
+<h3>Option 1 — Marketplace (Recommended)</h3>
 
-<pre><code>git clone https://github.com/adityachaudhari/Claude-Doctor.git ~/.claude/dev-mods/code-doctor</code></pre>
+<p>Install directly from the Claude Code marketplace in one command:</p>
 
-<h3>02 — Load the Plugin</h3>
+<pre><code>/plugin install code-doctor --marketplace adihtya/claude-doctor</code></pre>
+
+<p>This automatically downloads, validates, and enables the plugin.</p>
+
+<h3>Option 2 — Manual Clone & Load</h3>
+
+<h4>01 — Clone the Repository</h4>
+
+<pre><code>git clone https://github.com/adihtya/claude-doctor.git ~/.claude/dev-mods/code-doctor</code></pre>
+
+<h4>02 — Load the Plugin</h4>
 
 <pre><code>claude --plugin-dir ~/.claude/dev-mods/code-doctor</code></pre>
 
-<h3>03 — Validate Installation</h3>
+<h4>03 — Validate Installation</h4>
 
 <pre><code>claude plugin validate ~/.claude/dev-mods/code-doctor</code></pre>
 
-<h3>04 — Launch Code Doctor</h3>
+<h4>04 — Launch Code Doctor</h4>
 
 <pre><code>/code-doctor</code></pre>
 
