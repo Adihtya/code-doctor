@@ -4,7 +4,7 @@
 
   <img src="https://capsule-render.vercel.app/api?type=waving&color=0:D97757,50:8B4513,100:0D1117&height=220&section=header&text=Code%20Doctor&fontSize=65&fontColor=FFFFFF&animation=fadeIn&fontAlignY=38&desc=Diagnose.%20Review.%20Improve.&descAlignY=60&descSize=20" width="100%" />
 
-  <img src="./icon.png" width="110" alt="Code Doctor Logo" />
+ <img src="./assets/Stethoscope%20Code%20Logo.png" width="150" alt="Code Doctor Logo" />
 
   <h1>🩺 Code Doctor</h1>
 
