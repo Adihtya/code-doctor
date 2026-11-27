@@ -363,11 +363,17 @@
 
 <h3>Option 1 — Marketplace (Recommended)</h3>
 
-<p>Install directly from the Claude Code marketplace in one command:</p>
+<p>Install directly from the Code Doctor Marketplace in one command:</p>
 
-<pre><code>/plugin install code-doctor --marketplace adihtya/claude-doctor</code></pre>
+<pre><code># First, add the marketplace (one-time setup)
+claude plugin marketplace add Adihtya/code-doctor-marketplace
+
+# Then install the plugin
+claude plugin install code-doctor@code-doctor-marketplace</code></pre>
 
 <p>This automatically downloads, validates, and enables the plugin.</p>
+
+<p><strong>Note:</strong> The marketplace is hosted at <a href="https://github.com/Adihtya/code-doctor-marketplace">github.com/Adihtya/code-doctor-marketplace</a>.</p>
 
 <h3>Option 2 — Manual Clone & Load</h3>
 
